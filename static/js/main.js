@@ -177,36 +177,40 @@ function toggleChatbot() {
 }
 
 async function sendMessage() {
-  const input = document.getElementById('userInput');
-  const msgs  = document.getElementById('chatMessages');
-  const txt   = input.value.trim();
-  if (!txt) return;
+    const input = document.getElementById('userInput');
+    const msgs = document.getElementById('chatMessages');
+    const txt = input.value.trim();
+    if (!txt) return;
 
-  msgs.innerHTML += `<div class="message user-message">${txt}</div>`;
-  msgs.scrollTop = msgs.scrollHeight;
-  input.value = '';
+    msgs.innerHTML += `<div class="message user-message">${txt}</div>`;
+    input.value = '';
 
-  msgs.innerHTML += `<div class="message bot-message" id="typingIndicator">
-                       Typing<span class="dot-typing">...</span>
-                     </div>`;
-  msgs.scrollTop = msgs.scrollHeight;
+    // Scroll to the bottom after adding the user message
+    msgs.scrollTop = msgs.scrollHeight;
 
-  try {
-    const res = await fetch('/api/chat', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({message: txt})
-    });
-    const {response} = await res.json();
-    document.getElementById('typingIndicator').remove();
-    msgs.innerHTML += `<div class="message bot-message">${response}</div>`;
-  } catch (err) {
-    console.error('Chat error', err);
-    document.getElementById('typingIndicator').remove();
-    const botResponse = getBotResponse(txt);
-    msgs.innerHTML += `<div class="message bot-message">${botResponse}</div>`;
-  }
-  msgs.scrollTop = msgs.scrollHeight;
+    msgs.innerHTML += `<div class="message bot-message" id="typingIndicator">
+                           Typing<span class="dot-typing">...</span>
+                       </div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+
+    try {
+        const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: txt })
+        });
+        const { response } = await res.json();
+        document.getElementById('typingIndicator').remove();
+        msgs.innerHTML += `<div class="message bot-message">${response}</div>`;
+    } catch (err) {
+        console.error('Chat error', err);
+        document.getElementById('typingIndicator').remove();
+        const botResponse = getBotResponse(txt);
+        msgs.innerHTML += `<div class="message bot-message">${botResponse}</div>`;
+    }
+
+    // Scroll to the bottom after adding the bot response
+    msgs.scrollTop = msgs.scrollHeight;
 }
 
 // ——————————
