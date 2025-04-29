@@ -337,58 +337,21 @@
         </div>
 
         <!-- Scanner Modal -->
-       <!-- Scanner Modal -->
-<div class="scanner-modal" id="scannerModal">
-    <div class="scanner-container">
-        <div class="scanner-title">
-            <i class="fas fa-qrcode"></i> Scan Product Barcode
-        </div>
-        <div id="reader"></div>
-        <div class="scanner-footer">
-            <!-- Single Button to stop scanning and close the scanner modal -->
-            <button class="btn btn-secondary" onclick="closeScanner()">
-                <i class="fas fa-times"></i> Close Scanner
-            </button>
-        </div>
+       <div class="scanner-modal" id="scannerModal">
+  <div class="scanner-container">
+    <div class="scanner-title">
+      <i class="fas fa-qrcode"></i> Scan Product Barcode
     </div>
+    <div id="reader"></div>
+    <div class="scanner-footer">
+      <!-- Button to close the scanner while scanning -->
+      <button class="btn btn-secondary" onclick="stopScanner()">
+        <i class="fas fa-times"></i> Close Scanner
+      </button>
+    </div>
+  </div>
 </div>
 
-<script>
-    let scanner;  // Define the scanner variable for controlling the scanner
-
-    // Function to initialize the QR Code scanner
-    function startScanner() {
-        scanner = new Html5Qrcode("reader");
-        scanner.start(
-            { facingMode: "environment" }, // Camera setting
-            {
-                fps: 10,    // Frames per second
-                qrbox: 250  // Size of the QR code detection box
-            },
-            (decodedText) => {
-                console.log("Scanned Result:", decodedText);
-                // Handle the decoded result here
-            },
-            (errorMessage) => {
-                console.log("Error:", errorMessage);
-            }
-        ).catch((err) => {
-            console.log("Error initializing scanner:", err);
-        });
-    }
-
-    // Function to stop scanning and close the modal
-    function closeScanner() {
-        if (scanner) {
-            scanner.stop().then(() => {
-                console.log("Scanner stopped");
-            }).catch((err) => {
-                console.log("Error stopping scanner:", err);
-            });
-        }
-        document.getElementById("scannerModal").style.display = "none";  // Close the modal
-    }
-</script>
 
 
     </div>
