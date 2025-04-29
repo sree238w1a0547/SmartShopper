@@ -47,7 +47,7 @@ body {
 .auth-illustration {
   flex: 1;
   background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
-  color: white;
+  color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
