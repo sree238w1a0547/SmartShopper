@@ -15,7 +15,7 @@
     <div class="auth-container" id="authContainer">
         <div class="auth-illustration">
             <div class="auth-logo">
-                <img src="/static/images/logo.svg" alt="Smart Shopper Logo">
+                <img src="https://i.postimg.cc/1RvDqnGS/Screenshot-2025-04-29-173323.png" alt="Smart Shopper Logo">
                 <span>Smart Shopper</span>
             </div>
             <p>Compare prices across multiple platforms and save money on every purchase.</p>
@@ -105,7 +105,7 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
-                    <img src="/static/images/logo.svg" alt="Smart Shopper Logo">
+                    <img src="https://i.postimg.cc/1RvDqnGS/Screenshot-2025-04-29-173323.png" alt="Smart Shopper Logo">
                     <span>Smart Shopper</span>
                 </div>
                 <button class="mobile-menu-toggle" id="closeSidebar">
@@ -337,23 +337,28 @@
         </div>
 
         <!-- Scanner Modal -->
-<div class="scanner-modal" id="scannerModal">
-  <div class="scanner-container">
-    <div class="scanner-title">
-      <i class="fas fa-qrcode"></i> Scan Product Barcode
-    </div>
-
-    <!-- Scanner output area -->
-    <div id="reader" style="width: 100%; max-width: 300px; margin: auto;"></div>
-
-    <!-- Close Scanner Button -->
-    <div class="scanner-footer" style="margin-top: 20px; text-align: center;">
-      <button class="btn btn-danger" onclick="stopScanner()">
-        <i class="fas fa-times"></i> Close Scanner
-      </button>
-    </div>
-  </div>
-</div>
+        <div class="scanner-modal" id="scannerModal">
+            <div class="scanner-container">
+                <!-- Close "X" button -->
+                <button class="close-button" onclick="stopScanner()">
+                    &times;
+                </button>
+        
+                <div class="scanner-title">
+                    <i class="fas fa-qrcode"></i> Scan Product Barcode
+                </div>
+        
+                <div id="reader"></div>
+        
+                <div class="scanner-footer">
+                    <!-- Bottom close button -->
+                    <button class="btn btn-secondary" onclick="stopScanner()">
+                        <i class="fas fa-times"></i> Close Scanner
+                    </button>
+                </div>
+            </div>
+        </div>
+        
 
     </div>
 
