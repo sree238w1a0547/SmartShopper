@@ -337,19 +337,29 @@
         </div>
 
         <!-- Scanner Modal -->
-        <div class="scanner-modal" id="scannerModal">
-            <div class="scanner-container">
-                <div class="scanner-title">
-                    <i class="fas fa-qrcode"></i> Scan Product Barcode
-                </div>
-                <div id="reader"></div>
-                <div class="scanner-footer">
-                    <button class="btn btn-secondary" onclick="stopScanner()">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>
-                </div>
-            </div>
+       <!-- Scanner Modal -->
+<div class="scanner-modal" id="scannerModal">
+    <div class="scanner-container">
+        <div class="scanner-title">
+            <i class="fas fa-qrcode"></i> Scan Product Barcode
         </div>
+        <div id="reader"></div>
+        <div class="scanner-footer">
+            <!-- Close button to hide the modal -->
+            <button class="btn btn-secondary" onclick="closeScannerModal()">
+                <i class="fas fa-times"></i> Close Scanner
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to close the scanner modal
+    function closeScannerModal() {
+        document.getElementById("scannerModal").style.display = "none";
+    }
+</script>
+
     </div>
 
     <script src="/static/js/main.js"></script>
