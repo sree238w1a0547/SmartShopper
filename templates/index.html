@@ -15,7 +15,7 @@
     <div class="auth-container" id="authContainer">
         <div class="auth-illustration">
             <div class="auth-logo">
-                <img src="/static/images/logo.svg" alt="Smart Shopper Logo">
+                <img src="https://i.postimg.cc/1RvDqnGS/Screenshot-2025-04-29-173323.png" alt="Smart Shopper Logo">
                 <span>Smart Shopper</span>
             </div>
             <p>Compare prices across multiple platforms and save money on every purchase.</p>
@@ -105,7 +105,7 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
-                    <img src="/static/images/logo.svg" alt="Smart Shopper Logo">
+                    <img src="https://i.postimg.cc/1RvDqnGS/Screenshot-2025-04-29-173323.png" alt="Smart Shopper Logo">
                     <span>Smart Shopper</span>
                 </div>
                 <button class="mobile-menu-toggle" id="closeSidebar">
@@ -339,17 +339,27 @@
         <!-- Scanner Modal -->
         <div class="scanner-modal" id="scannerModal">
             <div class="scanner-container">
+                <!-- Close "X" button -->
+                <button class="close-button" onclick="stopScanner()">
+                    &times;
+                </button>
+        
                 <div class="scanner-title">
                     <i class="fas fa-qrcode"></i> Scan Product Barcode
                 </div>
+        
                 <div id="reader"></div>
+        
                 <div class="scanner-footer">
+                    <!-- Bottom close button -->
                     <button class="btn btn-secondary" onclick="stopScanner()">
-                        <i class="fas fa-times"></i> Cancel
+                        <i class="fas fa-times"></i> Close Scanner
                     </button>
                 </div>
             </div>
         </div>
+        
+
     </div>
 
     <script src="/static/js/main.js"></script>

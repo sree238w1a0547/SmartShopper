@@ -120,50 +120,67 @@ function logout() {
 // ——————————
 // Scanner
 // ——————————
-function startScanner() {
-  const modal = document.getElementById('scannerModal');
-  modal.style.display = 'flex';
+let html5QrCode = null; // Global scanner instance
 
-  Html5Qrcode.getCameras()
-    .then(devices => {
-      if (!devices || !devices.length) throw new Error('No cameras');
-      const qr = new Html5Qrcode("reader");
-      qr.start(
-        {facingMode:"environment"},
-        {fps:10,qrbox:{width:250,height:250}},
-        decoded => {
-          qr.stop().then(()=>{
+function startScanner() {
+    const modal = document.getElementById('scannerModal');
+    modal.style.display = 'flex';
+
+    Html5Qrcode.getCameras()
+        .then(devices => {
+            if (!devices || !devices.length) throw new Error('No cameras');
+
+            html5QrCode = new Html5Qrcode("reader"); // Assign globally
+
+            html5QrCode.start(
+                { facingMode: "environment" },
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                decoded => {
+                    html5QrCode.stop().then(() => {
+                        modal.style.display = 'none';
+                        processScannedCode(decoded);
+                        html5QrCode.clear();
+                    }).catch(err => {
+                        console.error("Error stopping scanner after scan", err);
+                        modal.style.display = 'none';
+                    });
+                },
+                err => console.log(err)
+            ).catch(e => {
+                console.error("Error starting scanner", e);
+                showNotification('Scanner failed to start', 'error');
+                modal.style.display = 'none';
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            showNotification('Camera access failed', 'error');
             modal.style.display = 'none';
-            processScannedCode(decoded);
-          });
-        },
-        err=>console.log(err)
-      ).catch(e=>{throw e;});
-      scanner = qr;
-    })
-    .catch(err => {
-      console.error(err);
-      showNotification('Camera access failed', 'error');
-      modal.style.display = 'none';
-    });
+        });
 }
 
 function stopScanner() {
-  if (scanner) {
-    scanner.stop().finally(()=>{
-      scanner = null;
-      document.getElementById('scannerModal').style.display = 'none';
-    });
-  } else {
-    document.getElementById('scannerModal').style.display = 'none';
-  }
+    const modal = document.getElementById("scannerModal");
+    modal.style.display = "none";
+
+    if (html5QrCode) {
+        html5QrCode.stop()
+            .then(() => {
+                console.log("Scanner stopped.");
+                html5QrCode.clear();
+            })
+            .catch(err => {
+                console.error("Failed to stop scanner", err);
+            });
+    }
 }
 
 function processScannedCode(code) {
-  showNotification(`Scanned: ${code}`, 'info');
-  document.getElementById('searchBar').value = code;
-  filterProducts();
+    showNotification(`Scanned: ${code}`, 'info');
+    document.getElementById('searchBar').value = code;
+    filterProducts();
 }
+
 
 // ——————————
 // Chatbot
@@ -176,37 +193,40 @@ function toggleChatbot() {
 
 async function sendMessage() {
   const input = document.getElementById('userInput');
-  const msgs  = document.getElementById('chatMessages');
-  const txt   = input.value.trim();
+  const msgs = document.getElementById('chatMessages');
+  const txt = input.value.trim();
   if (!txt) return;
 
   msgs.innerHTML += `<div class="message user-message">${txt}</div>`;
-  msgs.scrollTop = msgs.scrollHeight;
   input.value = '';
 
+  // Scroll to the bottom after adding the user message
+  msgs.scrollTop = msgs.scrollHeight;
+
   msgs.innerHTML += `<div class="message bot-message" id="typingIndicator">
-                       Typing<span class="dot-typing">...</span>
+                         Typing<span class="dot-typing">...</span>
                      </div>`;
   msgs.scrollTop = msgs.scrollHeight;
 
   try {
-    const res = await fetch('/api/chat', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({message: txt})
-    });
-    const {response} = await res.json();
-    document.getElementById('typingIndicator').remove();
-    msgs.innerHTML += `<div class="message bot-message">${response}</div>`;
+      const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: txt })
+      });
+      const { response } = await res.json();
+      document.getElementById('typingIndicator').remove();
+      msgs.innerHTML += `<div class="message bot-message">${response}</div>`;
   } catch (err) {
-    console.error('Chat error', err);
-    document.getElementById('typingIndicator').remove();
-    const botResponse = getBotResponse(txt);
-    msgs.innerHTML += `<div class="message bot-message">${botResponse}</div>`;
+      console.error('Chat error', err);
+      document.getElementById('typingIndicator').remove();
+      const botResponse = getBotResponse(txt);
+      msgs.innerHTML += `<div class="message bot-message">${botResponse}</div>`;
   }
+
+  // Scroll to the bottom after adding the bot response
   msgs.scrollTop = msgs.scrollHeight;
 }
-
 // ——————————
 // Fallback bot
 // ——————————
