@@ -983,9 +983,9 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   display: none;
   align-items: center;
   justify-content: center;
@@ -993,12 +993,11 @@ body {
 }
 
 .scanner-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
   width: 90%;
-  max-width: 500px;
-  background-color: var(--surface-color);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
+  max-width: 400px;
 }
 
 .scanner-title {
