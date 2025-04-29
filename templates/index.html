@@ -345,8 +345,8 @@
         </div>
         <div id="reader"></div>
         <div class="scanner-footer">
-            <!-- Close button to hide the modal -->
-            <button class="btn btn-secondary" onclick="closeScannerModal()">
+            <!-- Single Button to stop scanning and close the scanner modal -->
+            <button class="btn btn-secondary" onclick="closeScanner()">
                 <i class="fas fa-times"></i> Close Scanner
             </button>
         </div>
@@ -354,11 +354,42 @@
 </div>
 
 <script>
-    // Function to close the scanner modal
-    function closeScannerModal() {
-        document.getElementById("scannerModal").style.display = "none";
+    let scanner;  // Define the scanner variable for controlling the scanner
+
+    // Function to initialize the QR Code scanner
+    function startScanner() {
+        scanner = new Html5Qrcode("reader");
+        scanner.start(
+            { facingMode: "environment" }, // Camera setting
+            {
+                fps: 10,    // Frames per second
+                qrbox: 250  // Size of the QR code detection box
+            },
+            (decodedText) => {
+                console.log("Scanned Result:", decodedText);
+                // Handle the decoded result here
+            },
+            (errorMessage) => {
+                console.log("Error:", errorMessage);
+            }
+        ).catch((err) => {
+            console.log("Error initializing scanner:", err);
+        });
+    }
+
+    // Function to stop scanning and close the modal
+    function closeScanner() {
+        if (scanner) {
+            scanner.stop().then(() => {
+                console.log("Scanner stopped");
+            }).catch((err) => {
+                console.log("Error stopping scanner:", err);
+            });
+        }
+        document.getElementById("scannerModal").style.display = "none";  // Close the modal
     }
 </script>
+
 
     </div>
 
