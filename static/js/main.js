@@ -150,15 +150,15 @@ function startScanner() {
 
   // Function to stop the scanner and close the modal
   function stopScanner() {
-    if (scanner) {
-      scanner.stop().finally(() => {
-        scanner = null;
-        document.getElementById('scannerModal').style.display = 'none'; // Close modal
-      });
-    } else {
-      document.getElementById('scannerModal').style.display = 'none'; // Close modal if no scanner is active
-    }
+  if (scanner) {
+    scanner.stop().finally(() => {
+      scanner = null;
+      document.getElementById('scannerModal').style.display = 'none'; // Close modal
+    });
+  } else {
+    document.getElementById('scannerModal').style.display = 'none'; // Close modal if no scanner is active
   }
+}
 
   // Function to handle the scanned code
   function processScannedCode(code) {
