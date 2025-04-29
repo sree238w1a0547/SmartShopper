@@ -120,52 +120,61 @@ function logout() {
 // ——————————
 // Scanner
 // ——————————
-function startScanner() {
-    const modal = document.getElementById('scannerModal');
-    modal.style.display = 'flex';
+let scanner = null; // Declare globally to access from both functions
 
-    Html5Qrcode.getCameras()
-      .then(devices => {
-        if (!devices || !devices.length) throw new Error('No cameras');
-        const qr = new Html5Qrcode("reader");
-        qr.start(
-          { facingMode: "environment" }, // Camera setting
-          { fps: 10, qrbox: { width: 250, height: 250 } }, // QR box settings
-          decoded => {
-            qr.stop().then(() => {
-              modal.style.display = 'none';
-              processScannedCode(decoded);
-            });
-          },
-          err => console.log(err) // Error logging
-        ).catch(e => { throw e; });
-        scanner = qr;
-      })
-      .catch(err => {
-        console.error(err);
-        showNotification('Camera access failed', 'error');
+function startScanner() {
+  const modal = document.getElementById('scannerModal');
+  modal.style.display = 'flex';
+
+  Html5Qrcode.getCameras()
+    .then(devices => {
+      if (!devices || !devices.length) throw new Error('No cameras');
+
+      const qr = new Html5Qrcode("reader");
+      scanner = qr; // Set the scanner globally
+
+      qr.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+        decoded => {
+          qr.stop().then(() => {
+            modal.style.display = 'none';
+            processScannedCode(decoded);
+          });
+        },
+        err => console.log(err)
+      ).catch(e => {
+        console.error(e);
+        showNotification('Scanner start failed', 'error');
         modal.style.display = 'none';
       });
-  }
+    })
+    .catch(err => {
+      console.error(err);
+      showNotification('Camera access failed', 'error');
+      modal.style.display = 'none';
+    });
+}
 
-  // Function to stop the scanner and close the modal
-  function stopScanner() {
+// Function to stop the scanner and close the modal
+function stopScanner() {
   if (scanner) {
     scanner.stop().finally(() => {
       scanner = null;
-      document.getElementById('scannerModal').style.display = 'none'; // Close modal
+      document.getElementById('scannerModal').style.display = 'none';
     });
   } else {
-    document.getElementById('scannerModal').style.display = 'none'; // Close modal if no scanner is active
+    document.getElementById('scannerModal').style.display = 'none';
   }
 }
 
-  // Function to handle the scanned code
-  function processScannedCode(code) {
-    showNotification(`Scanned: ${code}`, 'info');
-    document.getElementById('searchBar').value = code;
-    filterProducts();
-  }
+// Function to handle the scanned code
+function processScannedCode(code) {
+  showNotification(`Scanned: ${code}`, 'info');
+  document.getElementById('searchBar').value = code;
+  filterProducts();
+}
+
 
 // ——————————
 // Chatbot
