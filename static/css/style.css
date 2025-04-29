@@ -46,7 +46,7 @@ body {
 
 .auth-illustration {
   flex: 1;
-  background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); /* Blue to Green gradient */
   color: white;
   display: flex;
   flex-direction: column;
@@ -55,6 +55,7 @@ body {
   padding: 2rem;
   text-align: center;
 }
+
 
 .auth-logo {
   display: flex;
