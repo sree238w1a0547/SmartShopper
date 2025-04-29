@@ -47,11 +47,11 @@ body {
 .auth-illustration {
   flex: 1;
   background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
-  color: black;
+  color: green;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   padding: 2rem;
   text-align: center;
 }
@@ -65,8 +65,8 @@ body {
 }
 
 .auth-logo img {
-  width: 48px;
-  height: 48px;
+  width: 100px;
+  height: 100px;
   margin-right: 1rem;
 }
 
